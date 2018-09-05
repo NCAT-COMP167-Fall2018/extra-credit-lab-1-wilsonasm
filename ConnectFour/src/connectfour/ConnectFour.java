@@ -40,46 +40,58 @@ public class ConnectFour {
     {
         System.out.println(turnPoint+"'s Turn:");
         Random rnd= new Random();
-        int col=rnd.nextInt(6);
+        int col=rnd.nextInt(7);
         int row=5;
-        if(gameBoard[row][col]==('b'))
+        if (gameBoard[row][col]=='b')
         {
-            gameBoard[row][col]=turnPoint;
-            if(gameBoard[row][col]==('y')||gameBoard[row][col]==('r'))
-            {
-                row=row-1;
-                gameBoard[row][col]=turnPoint;
-            }
-            if(gameBoard[0][col]=='y'||gameBoard[0][col]=='r')
-            {
-                col=col+1;
-                gameBoard[row][col]=turnPoint;
-            }
+            gameBoard[row][col]=turnPoint;   
         }
+        else if(gameBoard[row][col]=='r'||gameBoard[row][col]=='y')
+        {
+            while(gameBoard[row][col]=='r'||gameBoard[row][col]=='y')
+            {
+                row--;
+                if (row==0)
+                {
+                    row=5;
+                    col++;
+                }
+            }
+            gameBoard[row][col]=turnPoint;
+        }
+        if(gameBoard[0][col]=='y'||gameBoard[0][col]=='r')
+        {
+            col++;
+            gameBoard[row][col]=turnPoint;
+        }
+        
         printBoard();
     }
     private static boolean checkRows(char[][] board)
     {
-        int row=0;
-        int col=0;
-        int counterR=0;
+        int row=5;
+        int col=6;
+        int countR=0;
         int countY=0;
-        while (row>board.length)
+        while (row>=0)
         {
             if(board[row][col]=='r')
             {
                 countR++;
-                row++;
+                countY=0;
+                
             }
             else if(board[row][col]=='y')
             {
                 countY++;
-                row++;
+                countR=0;    
             }
-            else
+            else if(board[row][col]=='b')
             {
-                row++;
+                countY=0;
+                countR=0;
             }
+
             if (countR>=4)
             {
                 System.out.print("RED WON!");
@@ -90,31 +102,32 @@ public class ConnectFour {
                 System.out.print("YELLOW WON!");
                 return true;         
             }
-            col++;
+            row--;
         }
         return false;
     }
     private static boolean checkCols(char[][] board)
     {
-        int row=0;
-        int col=0;
+        int row=5;
+        int col=6;
         int countR=0;
         int countY=0;
-        while (col>board[row].length)
+        while (col>=0)
         {
             if(board[row][col]=='r')
             {
                 countR++;
-                col++;
+                countY=0;
             }
-            if(board[row][col]=='y')
+            else if(board[row][col]=='y')
             {
                 countY++;
-                col++;
+                countR=0;
             }
-            else
+            else if(board[row][col]=='b')
             {
-                col++;
+                countY=0;
+                countR=0;
             }
             if (countR>=4)
             {
@@ -126,7 +139,7 @@ public class ConnectFour {
                 System.out.print("YELLOW WON!");
                 return true;         
             }
-            row++;
+            col--;
         }
 
         return false;
@@ -138,7 +151,7 @@ public class ConnectFour {
         char yellowTurn='y';
         char temp=redTurn;
         int i=0;      
-        while (i<11)
+        while (i<16)
         {
             if (i%2==0)
             {
@@ -157,8 +170,6 @@ public class ConnectFour {
     }
     public static void main(String[] args) {
         // TODO code application logic here
-        createBoard('b');
-        printBoard();
         System.out.println("----------------");
         playGame(createBoard('b'));
     }
