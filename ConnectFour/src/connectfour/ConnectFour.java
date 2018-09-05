@@ -51,10 +51,10 @@ public class ConnectFour {
             while(gameBoard[row][col]=='r'||gameBoard[row][col]=='y')
             {
                 row--;
-                if (row==0)
+                if (row<0)
                 {
                     row=5;
-                    col++;
+                    col--;
                 }
             }
             gameBoard[row][col]=turnPoint;
@@ -97,12 +97,16 @@ public class ConnectFour {
                 System.out.print("RED WON!");
                 return true;         
             }
-            if (countY>=4)
+            else if (countY>=4)
             {
                 System.out.print("YELLOW WON!");
                 return true;         
             }
             row--;
+        }
+        if (false)
+        {
+            System.out.print("It's a tie");
         }
         return false;
     }
@@ -134,16 +138,65 @@ public class ConnectFour {
                 System.out.print("RED WON!");
                 return true;         
             }
-            if (countY>=4)
+            else if (countY>=4)
             {
                 System.out.print("YELLOW WON!");
                 return true;         
             }
             col--;
         }
+        if (false)
+        {
+            System.out.print("It's a tie");
+        }
 
         return false;
         
+    }
+    private static boolean checkDiagonals(char[][]gameBoard)
+    {
+        int row=5;
+        int col=6;
+        int countR=0;
+        int countY=0;
+        while(row>=0)
+        {
+            if(gameBoard[row][col]=='r')
+            {
+                countR++;
+                countY=0;
+            }
+            else if(gameBoard[row][col]=='y')
+            {
+                countY++;
+                countR=0;
+
+            }
+            else if(gameBoard[row][col]=='b')
+            {
+                countY=0;
+                countR=0;
+
+            } 
+            row--;
+            col--;
+        }
+        if (countR>=4)
+        {
+            System.out.print("RED WON!");
+            return true;         
+        }
+        if (countY>=4)
+        {
+            System.out.print("YELLOW WON!");
+            return true;         
+        }
+        else
+        {
+            System.out.print("It's a tie");
+        }
+                
+        return false;
     }
     private static char playGame(char[][] board)
     {
